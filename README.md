@@ -13,3 +13,11 @@ This work is licensed under a
 
 NightShade is a bot using Amazon's Buy Now functionality to automatically refresh a product and purchase it at a specific price
 It can help users obtain hard to get GPUs, such as the RTX 3000 and RX 6000 Series
+
+All you need to do is install Java on your system,
+available from https://www.java.com/en/download/,
+And run the .bat file. You will be prompted for a product URL, and a maxmimum price to buy at
+After logging in to Amazon, the bot will turn on and automatically refresh the page until the price goes under the user specified limit
+It will then purchase the item and stop
+
+
