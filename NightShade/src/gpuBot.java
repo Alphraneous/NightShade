@@ -31,7 +31,7 @@ DEPENDENCIES:
 Selenium, Java and ChromeDriver
 Chromedriver and Selenium Dependencies are already included in /lib
 
-Please message Ajax21#5396 on discord for issues
+Please message Ajax21#5396 on discord if you have any issues
 */                                                                       
 
         System.out.println("Starting");
