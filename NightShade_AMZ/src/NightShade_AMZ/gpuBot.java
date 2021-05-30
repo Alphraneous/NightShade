@@ -94,6 +94,7 @@ Please message Ajax21#5396 on discord for issues
     		System.out.println("Please solve the captcha and press enter to continue");
     		Scanner captcha = new Scanner(System.in);
             String phs1 = captcha.nextLine();
+            wd.get(productURL);
     	}
         if (!isOutOfStock) {
             //Retrieve Price
