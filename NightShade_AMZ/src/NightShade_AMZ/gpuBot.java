@@ -87,7 +87,7 @@ Please message Ajax21#5396 on discord for issues
         while (true) {
         //See if the product is in stock by seeing if a price textbox is visible
         try {
-        boolean isOutOfStock = wd.findElements(By.xpath("//*[@id=\'availability\']/span")).size() > 0;
+        boolean isOutOfStock = wd.findElements(By.xpath("//*[@id='availability']/span")).size() > 0;
         Random delay = new Random();
         double delayAmount = 0.5 + (1.5 - 0.5) * delay.nextDouble();
         if (wd.findElements(By.xpath("//*[ contains (text(), 'not a robot' ) ]")).size() > 0 || wd.findElements(By.xpath("//*[ contains (text(), 'servers are getting hit' ) ]")).size() > 0) {
