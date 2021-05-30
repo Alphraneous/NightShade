@@ -90,6 +90,11 @@ Please message Ajax21#5396 on discord for issues
         boolean isOutOfStock = wd.findElements(By.xpath("//*[@id=\'availability\']/span")).size() > 0;
         Random delay = new Random();
         double delayAmount = 0.5 + (1.5 - 0.5) * delay.nextDouble();
+        if (wd.findElements(By.xpath("//*[ contains (text(), 'not a robot' ) ]")).size() > 0 || wd.findElements(By.xpath("//*[ contains (text(), 'servers are getting hit' ) ]")).size() > 0) {
+    		System.out.println("Please solve the captcha and press enter to continue");
+    		Scanner captcha = new Scanner(System.in);
+            String phs1 = captcha.nextLine();
+    	}
         if (!isOutOfStock) {
             //Retrieve Price
         	String price = null;
@@ -97,6 +102,12 @@ Please message Ajax21#5396 on discord for issues
         		price = wd.findElement(By.xpath("//*[@id='price_inside_buybox']")).getText();
         	} else if (wd.findElements(By.xpath("//*[@id=\'priceblock_ourprice\']")).size() > 0) {
         		price = wd.findElement(By.xpath("//*[@id=\'priceblock_ourprice\']")).getText();
+        	} else if (wd.findElements(By.xpath("//*[ contains (text(), 'not a robot' ) ]")).size() > 0 || wd.findElements(By.xpath("//*[ contains (text(), 'servers are getting hit' ) ]")).size() > 0) {
+        		System.out.println("Please solve the captcha and press enter to continue");
+        		Scanner captcha = new Scanner(System.in);
+                String phs1 = captcha.nextLine();
+        	} else {
+        		System.out.println("An error has occurred, please restart bot");
         	}
             //Format the text to be readable as an integer
             String priceRev1 = price.substring(1,(price.length()-3));
