@@ -42,7 +42,7 @@ Please message Ajax21#5396 on discord for issues
         //Hello World, Starting Webdriver
         WebDriver wd = new ChromeDriver();
         //Ask user for the product they want to buy
-        System.out.println("Enter Amazon Product URL (NO QUOTES, WHOLE URL, INCLUDING HTTPS; COPY DIRECTLY FROM BROWSER)");
+        System.out.println("Enter Amazon Smile (smile.amazon.com) Product URL (NO QUOTES, WHOLE URL, INCLUDING HTTPS; COPY DIRECTLY FROM BROWSER)");
         Scanner productPage = new Scanner(System.in);
         String productURL = productPage.nextLine();
         //Ask user for the maximum price they are willing to pay for the product
@@ -59,7 +59,7 @@ Please message Ajax21#5396 on discord for issues
         wd.get(productURL);
         while (true) {
         //See if the product is in stock by seeing if a price textbox is visible
-        boolean isInStock = wd.findElements(By.xpath("//*[@id='price_inside_buybox']")).size() > 0;
+        boolean isInStock = wd.findElements(By.xpath("//*[@id=\'availability\']/span")).size() == 0;
         if (isInStock) {
             //Retrieve Price
             String price = wd.findElement(By.xpath("//*[@id='price_inside_buybox']")).getText();
@@ -84,9 +84,9 @@ Please message Ajax21#5396 on discord for issues
             WebElement buyNowButton = wd.findElement(By.xpath("//*[@id='buy-now-button']"));
             buyNowButton.click();
             while (true) {
-                boolean placeOrderVisible = wd.findElements(By.xpath("//*[@id='turbo-checkout-pyo-button']")).size() > 0;
+                boolean placeOrderVisible = wd.findElements(By.xpath("//*[@id=\'placeYourOrder\']/span/input")).size() > 0;
                 	if (placeOrderVisible) {
-                		WebElement placeOrderButton = wd.findElement(By.xpath("//*[@id='turbo-checkout-pyo-button']"));
+                		WebElement placeOrderButton = wd.findElement(By.xpath("//*[@id=\'placeYourOrder\']/span/input"));
                     	placeOrderButton.click();
                     	System.out.println("Product Successfully Purchased, Browser Will Close in 5 Seconds");
                     	break;
@@ -106,7 +106,7 @@ Please message Ajax21#5396 on discord for issues
             }
         } else {
             //If the item isn't in stock, refresh the page
-            System.out.println("Not In Stock Yet");
+            System.out.println(wd.findElement(By.xpath("//*[@id=\'availability\']/span")).getText());
             try {
 				TimeUnit.SECONDS.sleep((long) 0.5);
 			} catch (InterruptedException e) {
