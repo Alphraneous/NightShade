@@ -53,7 +53,7 @@ Please message Ajax21#5396 on discord if you have any issues
         while (true) {
         	boolean soldOut = wd.findElements(By.xpath("//*[text()='Sold out']")).size() > 0;
         	if (soldOut) {
-        		System.out.println("Still sold out");
+        		System.out.println("Still unavailable");
         		wd.navigate().refresh();
         	} else {
         		WebElement addToCartButton = wd.findElement(By.xpath("//*[text()='Add to Cart']"));
