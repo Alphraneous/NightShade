@@ -80,11 +80,11 @@ Please message Ajax21#5396 on discord for issues
             String inputNull = userInput.nextLine(); 
         }
         if (wd.findElements(By.xpath("//*[ contains (text(), 're-enter' ) ]")).size() > 0 || wd.findElements(By.xpath("//*[ contains (text(), 'password' ) ]")).size() > 0) {
-    		System.out.println("Please re-enter password and solve captcha, press enter to continue");
+        	WebElement passwordBox = wd.findElement(By.xpath("//*[@id=\'ap_password\']"));
+        	passwordBox.sendKeys(password);
+    		System.out.println("Please captcha and press enter to continue");
     		Scanner captcha = new Scanner(System.in);
             String phs1 = captcha.nextLine();
-            WebElement passwordBox = wd.findElement(By.xpath("//*[@id=\'ap_password\']"));
-        	passwordBox.sendKeys(password);
             wd.get(productURL);
     	}
 
