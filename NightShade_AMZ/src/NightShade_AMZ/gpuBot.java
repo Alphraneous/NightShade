@@ -38,7 +38,6 @@ Please message Ajax21#5396 on discord for issues
 */                                                                       
 
         System.out.println("Starting");
-        //Please set path to chromedriver here\
         File config = new File("credentials.txt");
         Boolean configFileFound = true;
         String username = null;
@@ -53,7 +52,6 @@ Please message Ajax21#5396 on discord for issues
 			System.out.println("Credentials file not found, continuing");
 			configFileFound = false;
 		}
-        
         System.setProperty("webdriver.chrome.driver","lib\\chromedriver.exe");
         //Hello World, Starting Webdriver
         WebDriver wd = new ChromeDriver();
@@ -81,20 +79,27 @@ Please message Ajax21#5396 on discord for issues
         	Scanner userInput = new Scanner(System.in);
             String inputNull = userInput.nextLine(); 
         }
+        if (wd.findElements(By.xpath("//*[ contains (text(), 're-enter' ) ]")).size() > 0 || wd.findElements(By.xpath("//*[ contains (text(), 'password' ) ]")).size() > 0) {
+    		System.out.println("Please re-enter password and solve captcha, press enter to continue");
+    		Scanner captcha = new Scanner(System.in);
+            String phs1 = captcha.nextLine();
+            wd.get(productURL);
+    	}
+
         // NOTE: userInput is not used because it is simply to stop the below code from running until the user has logged in
         System.out.println("Bot Started, Best of Luck!");
         wd.get(productURL);
-        while (true) {
-        //See if the product is in stock by seeing if a price textbox is visible
-        try {
-        Random delay = new Random();
-        double delayAmount = 0.5 + (1.5 - 0.5) * delay.nextDouble();
         if (wd.findElements(By.xpath("//*[ contains (text(), 'not a robot' ) ]")).size() > 0 || wd.findElements(By.xpath("//*[ contains (text(), 'servers are getting hit' ) ]")).size() > 0) {
     		System.out.println("Please solve the captcha and press enter to continue");
     		Scanner captcha = new Scanner(System.in);
             String phs1 = captcha.nextLine();
             wd.get(productURL);
     	}
+        while (true) {
+        //See if the product is in stock by seeing if a price textbox is visible
+        try {
+        Random delay = new Random();
+        double delayAmount = 0.5 + (1.5 - 0.5) * delay.nextDouble();
         boolean isOutOfStock = wd.findElements(By.xpath("//*[ contains (text(), 'Currently unavailable' ) ]")).size() > 0;
         if (!isOutOfStock) {
             //Retrieve Price
