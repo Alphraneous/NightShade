@@ -83,6 +83,8 @@ Please message Ajax21#5396 on discord for issues
     		System.out.println("Please re-enter password and solve captcha, press enter to continue");
     		Scanner captcha = new Scanner(System.in);
             String phs1 = captcha.nextLine();
+            WebElement passwordBox = wd.findElement(By.xpath("//*[@id=\'ap_password\']"));
+        	passwordBox.sendKeys(password);
             wd.get(productURL);
     	}
 
