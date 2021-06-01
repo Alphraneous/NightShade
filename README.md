@@ -18,6 +18,7 @@ All you need to do is install Java on your system,
 available from https://www.java.com/en/download/,
 And run the .bat file. You will be prompted for a product URL, and a maxmimum price to buy at
 After logging in to Amazon, the bot will turn on and automatically refresh the page until the price goes under the user specified limit
-It will then purchase the item and stop
+It will then purchase the item and stop.
 
+ This bot is simple, and more features (Hopefully AI assisted captcha solving) are yet to come. Amazon smile links are preffered due to them having less frequent captchas
 
