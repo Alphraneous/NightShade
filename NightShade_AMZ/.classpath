@@ -12,5 +12,6 @@
 	<classpathentry kind="lib" path="lib/guava-25.0-jre.jar"/>
 	<classpathentry kind="lib" path="lib/okhttp-3.11.0.jar"/>
 	<classpathentry kind="lib" path="lib/okio-1.14.0.jar"/>
+	<classpathentry kind="lib" path="lib/Tess4J/dist/tess4j-3.4.8.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
