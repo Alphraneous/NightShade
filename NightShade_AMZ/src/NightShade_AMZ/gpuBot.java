@@ -60,7 +60,7 @@ Please message Ajax21#5396 on discord for issues
         Integer maxprice = null;
         try {
 			Scanner configReader = new Scanner(config);
-			System.out.println("Config file found");
+			System.out.println("Configuration file found");
 			username = configReader.nextLine();
 			password = configReader.nextLine();
 			productURL = configReader.nextLine();
