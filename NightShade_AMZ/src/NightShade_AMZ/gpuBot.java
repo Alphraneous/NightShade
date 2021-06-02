@@ -249,6 +249,12 @@ Please message Ajax21#5396 on discord for issues
         					if (wd.findElements(By.xpath("//*[@id=\'hlb-ptc-btn-native\']")).size() > 0) {
     							WebElement checkoutBtn = wd.findElement(By.xpath("//*[@id=\'hlb-ptc-btn-native\']"));
     							checkoutBtn.click();
+    							if (wd.findElements(By.xpath("//*[ contains (text(), 'Sign-In' ) ]")).size() > 0) {
+    								WebElement passwordBox = wd.findElement(By.xpath("//*[@id=\'ap_password\']"));
+    					        	passwordBox.sendKeys(password);
+    					        	WebElement loginButton = wd.findElement(By.xpath("//*[@id=\'signInSubmit\']"));
+    					        	loginButton.click();
+    							}
         						if (wd.findElements(By.xpath("//*[ contains (text(), 'Enjoy immediate access' ) ]")).size() > 0 || wd.findElements(By.xpath("//*[ contains (text(), 'Prime Benefits' ) ]")).size() > 0) {
         							if (wd.findElements(By.xpath("//*[ contains (text(), 'No thanks' ) ]")).size() > 0) {
         								WebElement noThanks = wd.findElement(By.xpath("//*[ contains (text(), 'No thanks' ) ]"));
@@ -326,6 +332,12 @@ Please message Ajax21#5396 on discord for issues
                 if (wd.findElements(By.xpath("//*[@id=\'buy-now-button\']")).size() > 0) {
                 	WebElement buyNowButton = wd.findElement(By.xpath("//*[@id=\'buy-now-button\']"));
                 	buyNowButton.click();
+                	if (wd.findElements(By.xpath("//*[ contains (text(), 'Sign-In' ) ]")).size() > 0) {
+						WebElement passwordBox = wd.findElement(By.xpath("//*[@id=\'ap_password\']"));
+			        	passwordBox.sendKeys(password);
+			        	WebElement loginButton = wd.findElement(By.xpath("//*[@id=\'signInSubmit\']"));
+			        	loginButton.click();
+					}
                 	if (wd.findElements(By.xpath("//*[ contains (text(), 'Failed to add' ) ]")).size() > 0 || (wd.findElements(By.xpath("//*[ contains (text(), 'Nothing was added' ) ]")).size() > 0) || (wd.findElements(By.xpath("//*[ contains (text(), 'Not added' ) ]")).size() > 0)) {
                 		System.out.println("Adding to cart failed, trying again");
                 		wd.get(productURL);
