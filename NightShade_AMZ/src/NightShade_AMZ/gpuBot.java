@@ -1,6 +1,7 @@
 package NightShade_AMZ;
 
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 
 import javax.imageio.ImageIO;
 
@@ -48,17 +49,11 @@ Chromedriver and Selenium Dependencies are already included in /lib
 
 Please message Ajax21#5396 on discord for issues
 */                                                                       
-    	final String ANSI_RESET = "<ESC>[0m"; 
-    	final String ANSI_BLACK = "\u001B[30m"; 
-    	final String ANSI_RED = "\u001B[31m"; 
-    	final String ANSI_GREEN = "\u001B[32m"; 
-    	final String ANSI_YELLOW = "<ESC>[93m"; 
-    	final String ANSI_BLUE = "\u001B[34m"; 
-    	final String ANSI_PURPLE = "\u001B[35m"; 
-    	final String ANSI_CYAN = "\u001B[36m"; 
-    	final String ANSI_WHITE = "\u001B[37m"; 
+  
+    	System.setProperty("webdriver.chrome.silentOutput", "true");
+    	java.util.logging.Logger.getLogger("org.openqa.selenium").setLevel(Level.SEVERE);
     	
-        System.out.println(ANSI_YELLOW + "Starting" + ANSI_RESET);
+        System.out.println("Starting");
         Boolean testMode = false;
         if (args.length > 0) {
         	for (String arg : args) {
@@ -174,10 +169,26 @@ Please message Ajax21#5396 on discord for issues
     	}
         if (wd.findElements(By.xpath("//*[ contains (text(), 'not a robot' ) ]")).size() > 0 || wd.findElements(By.xpath("//*[ contains (text(), 'servers are getting hit' ) ]")).size() > 0 || wd.findElements(By.xpath("//*[ contains (text(), 'Enter the characters' ) ]")).size() > 0 ) {
     		Tesseract captchaOCR = new Tesseract();
-            captchaOCR.setDatapath("/lib/Tess4J/tessdata");
-            System.out.println("Please solve captcha and press enter to continue");
-    		Scanner captcha = new Scanner(System.in);
-            String phs1 = captcha.nextLine();
+            captchaOCR.setDatapath("lib\\Tess4J\\tessdata");
+            System.out.println("Trying automatic captcha bypass");
+            WebElement imageBox = wd.findElement(By.xpath("/html/body/div/div[1]/div[3]/div/div/form/div[1]/div/div/div[1]/img"));
+        	File imageFile = imageBox.getScreenshotAs(OutputType.FILE);
+            String solvedCaptcha = null;
+            try {
+				solvedCaptcha = captchaOCR.doOCR(imageFile);
+				 System.out.println(solvedCaptcha);
+				WebElement captchaBox = wd.findElement(By.xpath("//*[@id=\'captchacharacters\']"));
+	            captchaBox.sendKeys(solvedCaptcha);
+			} catch (TesseractException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        	if (wd.findElements(By.xpath("//*[ contains (text(), 'There was a problem' ) ]")).size() > 0 ) {
+        		System.out.println("Automatic captcha solving failed, please try manually, then press enter to continue");
+        		Scanner captcha = new Scanner(System.in);
+                String phs1 = captcha.nextLine();
+                wd.get(productURL);
+        	}
     	}
         // NOTE: userInput is not used because it is simply to stop the below code from running until the user has logged in
         System.out.println("Bot Started, Best of Luck!");
@@ -194,7 +205,7 @@ Please message Ajax21#5396 on discord for issues
             //Retrieve Price
         	String price = null;
         	if (wd.findElements(By.xpath("//*[ contains (text(), 'See All Buying' ) ]")).size() > 0) {
-        		WebElement seeAllOffers = wd.findElement(By.xpath("//*[@id=\'buybox-see-all-buying-choices\']"));
+        		WebElement seeAllOffers = wd.findElement(By.xpath("//*[ contains (text(), 'See All Buying' ) ]"));
         		seeAllOffers.click();
         		try {
 					TimeUnit.SECONDS.sleep(2);
@@ -303,7 +314,7 @@ Please message Ajax21#5396 on discord for issues
 					e.printStackTrace();
 				}
         		wd.navigate().refresh();
-        	} else {
+        	} else if (wd.findElements(By.xpath("//*[@id='price_inside_buybox']")).size() > 0 || wd.findElements(By.xpath("//*[@id=\'priceblock_ourprice\']")).size() > 0){
         		if (wd.findElements(By.xpath("//*[@id='price_inside_buybox']")).size() > 0) {
         			price = wd.findElement(By.xpath("//*[@id='price_inside_buybox']")).getText();
         		} else if (wd.findElements(By.xpath("//*[@id=\'priceblock_ourprice\']")).size() > 0) {
@@ -510,6 +521,8 @@ Please message Ajax21#5396 on discord for issues
                 		}
                 	}
                 }
+        	} else {
+        		wd.navigate().refresh();
         	}
         } else {
             //If the item isn't in stock, refresh the page
