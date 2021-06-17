@@ -18,7 +18,9 @@ import org.openqa.selenium.NoSuchWindowException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+
 import java.util.Random;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
@@ -50,7 +52,7 @@ Chromedriver and Selenium Dependencies are already included in /lib
 Please message Ajax21#5396 on discord for issues
 */                                                                       
   
-    	System.setProperty("webdriver.chrome.silentOutput", "true");
+  
     	java.util.logging.Logger.getLogger("org.openqa.selenium").setLevel(Level.SEVERE);
     	
         System.out.println("Starting");
@@ -101,9 +103,9 @@ Please message Ajax21#5396 on discord for issues
 			System.out.println("Credentials file not found, continuing");
 			configFileFound = false;
 		}
-        System.setProperty("webdriver.chrome.driver","lib\\chromedriver.exe");
+        System.setProperty("webdriver.gecko.driver","lib\\geckodriver.exe");
         //Hello World, Starting Webdriver
-        WebDriver wd = new ChromeDriver();
+        WebDriver wd = new FirefoxDriver();
         //Open the amazon sign in page so the user can sign in
         wd.get("https://www.amazon.com/ap/signin?openid.pape.max_auth_age=0&openid.return_to=https%3A%2F%2Fwww.amazon.com%2Fgp%2Faws%2Fcart%2Fadd.html%3F%26ref_%3Dnav_custrec_signin&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.assoc_handle=usflex&openid.mode=checkid_setup&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&");
         if (!productURLFound) {
@@ -213,11 +215,16 @@ Please message Ajax21#5396 on discord for issues
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-        		while (true) {
+        		for (int i = 1;i<7;i++) {
         			if (wd.findElements(By.xpath("//*[@id=\'aod-price-1\']/span/span[2]/span[2]")).size() > 0) {
         				break;
+        			} else {
+        				if (i > 5) {
+        					wd.navigate().refresh();
+        					break outerLoop;
         				}
         			}
+        		}
         		for (int i = 1;i<7;i++) {
         			if (wd.findElements(By.xpath("//*[@id=\'aod-price-"+i+"\']/span/span[2]/span[2]")).size() > 0) {
         				WebElement priceOffer = wd.findElement(By.xpath("//*[@id=\'aod-price-"+i+"\']/span/span[2]/span[2]"));
@@ -231,11 +238,32 @@ Please message Ajax21#5396 on discord for issues
         					System.out.println("Offer " + i + " is under max price, purchasing");
         					WebElement offerATCBtn = wd.findElement(By.xpath("/html/body/div[1]/span/span/span/div/div/div[4]/div["+i+"]/div[2]/div/div/div[2]/div/div/div[2]/form/span/span/span/input"));
         					offerATCBtn.click();
-        					if (wd.findElements(By.xpath("//*[ contains (text(), 'Failed to add' ) ]")).size() > 0 || (wd.findElements(By.xpath("//*[ contains (text(), 'Nothing was added' ) ]")).size() > 0) || (wd.findElements(By.xpath("//*[ contains (text(), 'Not added' ) ]")).size() > 0)) {
+        					if (wd.findElements(By.xpath("//*[ contains (text(), 'Failed to add' ) ]")).size() > 0 || (wd.findElements(By.xpath("//*[ contains (text(), 'Nothing was added' ) ]")).size() > 0) || (wd.findElements(By.xpath("//*[ contains (text(), 'sorry' ) ]")).size() > 0) || (wd.findElements(By.xpath("//*[ contains (text(), 'empty' ) ]")).size() > 0)) {
         						System.out.println("Adding to cart failed, trying again");
         						wd.get(productURL);
         						break outerLoop;
         					}
+        					Tesseract captchaOCR = new Tesseract();
+        		            captchaOCR.setDatapath("lib\\Tess4J\\tessdata");
+        		            System.out.println("Trying automatic captcha bypass");
+        					WebElement imageBox = wd.findElement(By.xpath("/html/body/div/div[1]/div[3]/div/div/form/div[1]/div/div/div[1]/img"));
+        		        	File imageFile = imageBox.getScreenshotAs(OutputType.FILE);
+        		            String solvedCaptcha = null;
+        		            try {
+        						solvedCaptcha = captchaOCR.doOCR(imageFile);
+        						 System.out.println(solvedCaptcha);
+        						WebElement captchaBox = wd.findElement(By.xpath("//*[@id=\'captchacharacters\']"));
+        			            captchaBox.sendKeys(solvedCaptcha);
+        					} catch (TesseractException e) {
+        						// TODO Auto-generated catch block
+        						e.printStackTrace();
+        					}
+        		        	if (wd.findElements(By.xpath("//*[ contains (text(), 'There was a problem' ) ]")).size() > 0 ) {
+        		        		System.out.println("Automatic captcha solving failed, please try manually, then press enter to continue");
+        		        		Scanner captcha = new Scanner(System.in);
+        		                String phs1 = captcha.nextLine();
+        		                wd.get(productURL);
+        		        	}
         					for (int s = 0;s < 5;s++) {
         						if (wd.findElements(By.xpath("//*[@id=\'hlb-ptc-btn-native\']")).size() > 0) {
         							if (wd.findElements(By.xpath("//*[ contains (text(), 'No thanks' ) ]")).size() > 0) {
@@ -349,7 +377,7 @@ Please message Ajax21#5396 on discord for issues
 			        	WebElement loginButton = wd.findElement(By.xpath("//*[@id=\'signInSubmit\']"));
 			        	loginButton.click();
 					}
-                	if (wd.findElements(By.xpath("//*[ contains (text(), 'Failed to add' ) ]")).size() > 0 || (wd.findElements(By.xpath("//*[ contains (text(), 'Nothing was added' ) ]")).size() > 0) || (wd.findElements(By.xpath("//*[ contains (text(), 'Not added' ) ]")).size() > 0)) {
+                	if (wd.findElements(By.xpath("//*[ contains (text(), 'Failed to add' ) ]")).size() > 0 || (wd.findElements(By.xpath("//*[ contains (text(), 'Nothing was added' ) ]")).size() > 0) || (wd.findElements(By.xpath("//*[ contains (text(), 'sorry' ) ]")).size() > 0) || (wd.findElements(By.xpath("//*[ contains (text(), 'empty' ) ]")).size() > 0)) {
                 		System.out.println("Adding to cart failed, trying again");
                 		wd.get(productURL);
                 		break outerLoop;
