@@ -19,6 +19,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxDriverLogLevel;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
 import java.util.Random;
@@ -105,7 +106,9 @@ Please message Ajax21#5396 on discord for issues
 		}
         System.setProperty("webdriver.gecko.driver","lib\\geckodriver.exe");
         //Hello World, Starting Webdriver
-        WebDriver wd = new FirefoxDriver();
+        FirefoxOptions options = new FirefoxOptions();
+        options.setLogLevel(FirefoxDriverLogLevel.FATAL);
+        WebDriver wd = new FirefoxDriver(options);
         //Open the amazon sign in page so the user can sign in
         wd.get("https://www.amazon.com/ap/signin?openid.pape.max_auth_age=0&openid.return_to=https%3A%2F%2Fwww.amazon.com%2Fgp%2Faws%2Fcart%2Fadd.html%3F%26ref_%3Dnav_custrec_signin&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.assoc_handle=usflex&openid.mode=checkid_setup&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&");
         if (!productURLFound) {
