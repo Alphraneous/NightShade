@@ -44,13 +44,13 @@ password - *Amazon account password*<br/>
 producturl - *Amazon product url*<br/>
 maxprice - *The maximum price you are willing to pay*
 
-You can either delete this file, and be prompted for these details every time you look at the bot, or you can change these as you wish
+You can either delete this file, and be prompted for these details every time you start at the bot, or you can change these as you wish
 
 For example:
 
-johndoe@gmail.com
-SuchAnAw#somePassword675
-https://smile.amazon.com/dp/B08WHJPBFX
+johndoe@gmail.com <br/>
+SuchAnAw#somePassword675 <br/>
+https://smile.amazon.com/dp/B08WHJPBFX <br/>
 800
 
 NOTE: MAKE SURE YOU HAVE A PAYMENT METHOD LINKED TO YOUR ACCOUNT, FOR BOTH BESTBUY AND AMAZON
