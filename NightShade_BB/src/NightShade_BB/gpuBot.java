@@ -49,6 +49,7 @@ Please message Ajax21#5396 on discord if you have any issues
         String inputNull = userInput.nextLine(); 
         // NOTE: userInput is not used because it is simply to stop the below code from running until the user has logged in
         System.out.println("Bot Started, Best of Luck!");
+        masterLoop:
         wd.get(productURL);
         while (true) {
         	boolean soldOut = wd.findElements(By.xpath("//*[text()='Sold out']")).size() > 0;
@@ -64,12 +65,23 @@ Please message Ajax21#5396 on discord if you have any issues
         		if (checkoutReady) {
         			WebElement checkoutBtn = wd.findElement(By.xpath("//*[text()='Checkout']"));
         			checkoutBtn.click();
-        			WebElement pmntBtn = wd.findElement(By.xpath("//*[text()='Continue to Payment Information']"));
-        			pmntBtn.click();
-        			WebElement placeOrderBtn = wd.findElement(By.xpath("//*[text()='Place Your Order']"));
+        			boolean pmntReady = wd.findElements(By.xpath("//*[@id=\"checkoutApp\"]/div[2]/div[1]/div[1]/main/div[2]/div[2]/form/section/div/div[2]/div/div/button")).size() > 0;
+        			while (true) {
+        				if (pmntReady) {
+        					WebElement pmntBtn = wd.findElement(By.xpath("//*[@id=\"checkoutApp\"]/div[2]/div[1]/div[1]/main/div[2]/div[2]/form/section/div/div[2]/div/div/button"));
+        					pmntBtn.click();
+        					break;
+        				}
+        			}
+        			while (true) {
+						boolean poReady = wd.findElements(By.xpath("//*[text()='Place Your Order']")).size() > 0;
+						if (poReady) {
+							WebElement placeOrderBtn = wd.findElement(By.xpath("//*[text()='Place Your Order']"));
+							break;
+						}
+					}
+        			
         		}
-        		
-        		
         		
         	}
        }
