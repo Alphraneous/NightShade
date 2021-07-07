@@ -77,6 +77,7 @@ Please message Ajax21#5396 on discord if you have any issues
 						boolean poReady = wd.findElements(By.xpath("//*[text()='Place Your Order']")).size() > 0;
 						if (poReady) {
 							WebElement placeOrderBtn = wd.findElement(By.xpath("//*[text()='Place Your Order']"));
+							placeOrderBtn.click();
 							break;
 						}
 					}
