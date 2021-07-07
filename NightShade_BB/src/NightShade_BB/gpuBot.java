@@ -66,7 +66,7 @@ Please message Ajax21#5396 on discord if you have any issues
         			WebElement checkoutBtn = wd.findElement(By.xpath("//*[text()='Checkout']"));
         			checkoutBtn.click();
         			boolean pmntReady = wd.findElements(By.xpath("//*[@id=\"checkoutApp\"]/div[2]/div[1]/div[1]/main/div[2]/div[2]/form/section/div/div[2]/div/div/button")).size() > 0;
-        			while (true) {
+        			for (int i = 0; i < 8; i++) {
         				if (pmntReady) {
         					WebElement pmntBtn = wd.findElement(By.xpath("//*[@id=\"checkoutApp\"]/div[2]/div[1]/div[1]/main/div[2]/div[2]/form/section/div/div[2]/div/div/button"));
         					pmntBtn.click();
