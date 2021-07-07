@@ -65,12 +65,22 @@ Please message Ajax21#5396 on discord if you have any issues
         		if (checkoutReady) {
         			WebElement checkoutBtn = wd.findElement(By.xpath("//*[text()='Checkout']"));
         			checkoutBtn.click();
-        			boolean pmntReady = wd.findElements(By.xpath("//*[@id=\"checkoutApp\"]/div[2]/div[1]/div[1]/main/div[2]/div[2]/form/section/div/div[2]/div/div/button")).size() > 0;
         			for (int i = 0; i < 8; i++) {
+        				boolean pmntReady = wd.findElements(By.xpath("//*[@id=\"checkoutApp\"]/div[2]/div[1]/div[1]/main/div[2]/div[2]/form/section/div/div[2]/div/div/button")).size() > 0;
         				if (pmntReady) {
         					WebElement pmntBtn = wd.findElement(By.xpath("//*[@id=\"checkoutApp\"]/div[2]/div[1]/div[1]/main/div[2]/div[2]/form/section/div/div[2]/div/div/button"));
         					pmntBtn.click();
         					break;
+        				}
+        			}
+        			for (int i = 0; i < 8; i++) {
+        				boolean pmntReady = wd.findElements(By.xpath("//*[text()='Security Code']")).size() > 0;
+        				if (pmntReady) {
+        					WebElement pmntBtn = wd.findElement(By.xpath("//*[text()='Security Code']"));
+        					System.out.println("Please Enter Card Security Code And Press Any Key to Start Bot");
+        			        Scanner userInput2 = new Scanner(System.in);
+        			        String inputNull2 = userInput.nextLine(); 
+        			        break;
         				}
         			}
         			while (true) {
