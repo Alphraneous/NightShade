@@ -44,7 +44,7 @@ public class gpuBot {
          |___/                                            
 
 NightShade is an bot that refreshes and purchases hard to find 
-GPU's, such as the RX 6000 and RTX 3060 Series
+GPU's, such as the RX 6000 and RTX 3000 Series
 
 DEPENDENCIES: 
 Selenium, Java and ChromeDriver
